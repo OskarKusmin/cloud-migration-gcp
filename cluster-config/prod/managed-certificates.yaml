@@ -1,0 +1,10 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: public-cert
+  namespace: sample-app
+spec:
+  domains:
+    - frontend.prod-public.kood-voyager.com
+    - backend.prod-public.kood-voyager.com
+    - www.kood-voyager.com

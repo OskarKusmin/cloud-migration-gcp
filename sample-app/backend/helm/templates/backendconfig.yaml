@@ -1,0 +1,13 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: {{ include "backend.fullname" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+spec:
+  healthCheck:
+    requestPath: /api/ping
+    port: 8080
+    type: HTTP
+    checkIntervalSec: 10
+    timeoutSec: 5

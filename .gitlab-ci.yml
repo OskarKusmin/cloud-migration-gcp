@@ -1,0 +1,120 @@
+stages:
+  - test
+  - build
+  - deploy-test
+  - deploy-prod
+
+variables:
+  REGISTRY: europe-north1-docker.pkg.dev/voyager-shared-489709/voyager
+  ARGOCD_SERVER: argocd.test-public.kood-voyager.com
+  ARGOCD_CLI_VERSION: v2.14.7
+
+# Shared templates
+
+.docker-build:
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - echo "$GCP_SA_KEY" > /tmp/key.json
+    - cat /tmp/key.json | docker login -u _json_key --password-stdin europe-north1-docker.pkg.dev
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+.argocd-deploy:
+  image: alpine:latest
+  variables:
+    ARGOCD_OPTS: "--plaintext --grpc-web"
+  before_script:
+    - apk add --no-cache curl
+    - curl -sSL -o /usr/local/bin/argocd 
+      https://github.com/argoproj/argo-cd/releases/download/$ARGOCD_CLI_VERSION/argocd-linux-amd64
+    - chmod +x /usr/local/bin/argocd
+
+# ----- Stage 1: Run backend tests -----
+
+test-backend:
+  stage: test
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - cd sample-app/backend
+    - docker compose -f docker-compose-test.yml up --force-recreate --abort-on-container-exit --exit-code-from run-tests
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ----- Stage 2: Build and push Docker images -----
+
+build-backend:
+  stage: build
+  extends: .docker-build
+  script:
+    - docker build
+      -t $REGISTRY/backend:$CI_COMMIT_SHORT_SHA
+      -t $REGISTRY/backend:latest
+      sample-app/backend
+    - docker push $REGISTRY/backend:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY/backend:latest
+
+build-frontend:
+  stage: build
+  extends: .docker-build
+  script:
+    - docker build
+      -t $REGISTRY/frontend:$CI_COMMIT_SHORT_SHA
+      -t $REGISTRY/frontend:latest
+      sample-app/frontend
+    - docker push $REGISTRY/frontend:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY/frontend:latest
+
+# ----- Stage 3: Deploy to test (automatic) -----
+
+deploy-test:
+  stage: deploy-test
+  extends: .argocd-deploy
+  script:
+    - argocd app set backend -p image.tag=$CI_COMMIT_SHORT_SHA
+    - argocd app set frontend -p image.tag=$CI_COMMIT_SHORT_SHA
+    - |
+      for APP in backend frontend; do
+        echo "Waiting for $APP to become healthy..."
+        for i in $(seq 1 10); do
+          HEALTH=$(argocd app get $APP 2>/dev/null | grep "Health Status:" | awk '{print $3}' || true)
+          echo "  Attempt $i/10: $HEALTH"
+          [ "$HEALTH" = "Healthy" ] && break
+          [ "$i" = "10" ] && echo "Timed out waiting for $APP" && exit 1
+          sleep 10
+        done
+      done
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+# ----- Stage 4: Deploy to prod (manual approval) -----
+
+deploy-prod:
+  stage: deploy-prod
+  extends: .argocd-deploy
+  script:
+    - argocd app set prod-backend -p image.tag=$CI_COMMIT_SHORT_SHA
+    - argocd app set prod-frontend -p image.tag=$CI_COMMIT_SHORT_SHA
+    - |
+      for APP in prod-backend prod-frontend; do
+        echo "Waiting for $APP to become healthy..."
+        for i in $(seq 1 10); do
+          HEALTH=$(argocd app get $APP 2>/dev/null | grep "Health Status:" | awk '{print $3}' || true)
+          echo "  Attempt $i/10: $HEALTH"
+          [ "$HEALTH" = "Healthy" ] && break
+          [ "$i" = "10" ] && echo "Timed out waiting for $APP" && exit 1
+          sleep 10
+        done
+      done
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+  needs:
+    - deploy-test

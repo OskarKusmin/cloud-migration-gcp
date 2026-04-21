@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-postgres-exporter
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: monitoring
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: {{ .Values.postgresExporter.chartVersion }}
+    chart: prometheus-postgres-exporter
+    helm:
+      values: |
+        {{- .Values.postgresExporter.values | toYaml | nindent 8 }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,10 @@
+frontend:
+  backendUrl: "http://prod-backend-backend:8080"
+  apiUrl: ""
+  ingress:
+    enabled: true
+    host: frontend.prod-public.kood-voyager.com
+    additionalHosts:
+      - www.kood-voyager.com
+    annotations:
+      networking.gke.io/managed-certificates: public-cert

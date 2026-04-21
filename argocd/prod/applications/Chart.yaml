@@ -1,0 +1,4 @@
+apiVersion: v2
+name: prod-applications
+description: App of apps for prod environment
+version: 0.1.0

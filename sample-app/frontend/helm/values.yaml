@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: europe-north1-docker.pkg.dev/voyager-shared-489709/voyager/frontend
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 3000
+
+nodeSelector:
+  role: main
+
+tolerations: []
+
+backendUrl: "http://voyager-backend:8080"
+apiUrl: ""
+
+ingress:
+  enabled: false
+  className: ""
+  host: ""
+  additionalHosts: []
+  annotations: {}

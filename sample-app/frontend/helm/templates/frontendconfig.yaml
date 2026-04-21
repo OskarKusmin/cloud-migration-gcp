@@ -1,0 +1,13 @@
+apiVersion: cloud.google.com/v1
+kind: FrontendConfig
+metadata:
+  name: {{ include "frontend.fullname" . }}
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+spec:
+  healthCheck:
+    requestPath: /
+    port: 3000
+    type: HTTP
+    checkIntervalSec: 10
+    timeoutSec: 5

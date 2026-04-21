@@ -1,0 +1,4 @@
+apiVersion: v2
+name: test-applications
+description: App of apps for test environment
+version: 0.1.0

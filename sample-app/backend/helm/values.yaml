@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: europe-north1-docker.pkg.dev/voyager-shared-489709/voyager/backend
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080
+
+nodeSelector:
+  role: main
+
+tolerations: []
+
+config:
+  CLIENT_URL: http://localhost:3000
+  SERVER_PORT: ":8080"
+  RUN_MIGRATION: "true"
+
+secrets:
+  POSTGRES_PASSWORD: postgres
+  JWT_KEY: changeme
+
+externalSecrets:
+  enabled: false
+  storeName: gcp-secret-manager
+  dbCredentialsSecret: ""
+  jwtKeySecret: ""
+
+ingress:
+  enabled: false
+  className: ""
+  host: ""
+  annotations: {}

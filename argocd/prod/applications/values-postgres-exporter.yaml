@@ -1,0 +1,21 @@
+postgresExporter:
+  chartVersion: "7.5.1"
+  values:
+    config:
+      datasource:
+        host: db.prod-private.kood-voyager.com
+        port: "5432"
+        user: postgres
+        database: postgres
+        passwordSecret:
+          name: postgres-exporter-password
+          key: password
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+    nodeSelector:
+      role: monitoring
+    tolerations:
+      - key: role
+        value: monitoring
+        effect: NoSchedule

@@ -1,0 +1,17 @@
+.DS_Store
+my-files/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfvars
+
+# Secrets - never commit these
+*.pem
+*.key
+credentials.json
+*ec.json
+
+.env

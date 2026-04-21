@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-alloy
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: alloy
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: {{ .Values.alloy.chartVersion }}
+    chart: alloy
+    helm:
+      values: |
+        {{- .Values.alloy.values | toYaml | nindent 8 }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

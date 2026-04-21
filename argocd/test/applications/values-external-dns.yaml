@@ -1,0 +1,19 @@
+externalDns:
+  chartVersion: "1.16.1"
+  values:
+    provider:
+      name: google
+    extraArgs:
+      - --google-project=voyager-test-489716
+      - --google-zone-visibility=public
+    domainFilters:
+      - test-public.kood-voyager.com
+    serviceAccount:
+      annotations:
+        iam.gke.io/gcp-service-account: external-dns@voyager-test-489716.iam.gserviceaccount.com
+    nodeSelector:
+      role: tools
+    tolerations:
+      - key: role
+        value: tools
+        effect: NoSchedule

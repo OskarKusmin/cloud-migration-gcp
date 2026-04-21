@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend.fullname" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "backend.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "backend.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /api/ping
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          {{- if .Values.externalSecrets.enabled }}
+          envFrom:
+            - secretRef:
+                name: {{ include "backend.fullname" . }}-secrets
+          {{- end }}
+          volumeMounts:
+            - name: env-file
+              mountPath: /.env
+              subPath: .env
+              readOnly: true
+      volumes:
+        - name: env-file
+          configMap:
+            name: {{ include "backend.fullname" . }}-env
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
