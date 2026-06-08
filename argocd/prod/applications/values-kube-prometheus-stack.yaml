@@ -42,7 +42,7 @@ kubePrometheusStack:
         receivers:
           - name: "discord"
             slack_configs:
-              - api_url: "https://discord.com/api/webhooks/1482338124305531083/5j-Oy0vP2XBk_sddyDq333hv8ovbiNnX9RZaWBYVwL4nOOeH_lgACPjAZNbRR81RLZm0/slack"
+              - api_url: ""
                 send_resolved: true
                 title: '{{ .Status | toUpper }}: {{ .CommonLabels.alertname }}'
                 text: '{{ range .Alerts }}*{{ .Labels.severity }}*: {{ .Annotations.description }}{{ "\n" }}{{ end }}'
@@ -61,7 +61,7 @@ kubePrometheusStack:
           effect: NoSchedule
       serviceAccount:
         annotations:
-          iam.gke.io/gcp-service-account: grafana@voyager-prod-489709.iam.gserviceaccount.com
+          iam.gke.io/gcp-service-account: grafana@****.iam.gserviceaccount.com
       additionalDataSources:
         - name: Loki
           type: loki
@@ -75,7 +75,7 @@ kubePrometheusStack:
           access: proxy
           jsonData:
             authenticationType: gce
-            defaultProject: voyager-prod-489709
+            defaultProject: 
       sidecar:
         datasources:
           uid: prometheus

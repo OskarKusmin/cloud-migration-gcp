@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: europe-north1-docker.pkg.dev/voyager-shared-489709/voyager/backend
+  repository: europe-north1-docker.pkg.dev//voyager/backend
   tag: latest
   pullPolicy: Always
 

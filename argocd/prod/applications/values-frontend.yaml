@@ -3,8 +3,8 @@ frontend:
   apiUrl: ""
   ingress:
     enabled: true
-    host: frontend.prod-public.kood-voyager.com
+    host: frontend.prod-public.
     additionalHosts:
-      - www.kood-voyager.com
+      - www.
     annotations:
       networking.gke.io/managed-certificates: public-cert

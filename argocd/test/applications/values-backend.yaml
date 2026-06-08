@@ -1,6 +1,6 @@
 backend:
   config:
-    CLIENT_URL: "https://frontend.test-public.kood-voyager.com"
+    CLIENT_URL: "https://frontend.test-public."
     SERVER_PORT: ":8080"
     RUN_MIGRATION: "true"
   externalSecrets:
@@ -10,6 +10,6 @@ backend:
     jwtKeySecret: voyager-test-jwt-key
   ingress:
     enabled: true
-    host: backend.test-public.kood-voyager.com
+    host: backend.test-public.
     annotations:
       networking.gke.io/managed-certificates: public-cert

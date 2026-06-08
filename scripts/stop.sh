@@ -3,16 +3,16 @@ set -euo pipefail
 
 # 1. Connecting to both clusters
 echo "Configuring kubectl contexts..."
-gcloud container clusters get-credentials "voyager-test" --zone "europe-north1-b" --project "voyager-test-489716"
-gcloud container clusters get-credentials "voyager-prod" --region "europe-north1" --project "voyager-prod-489709"
+gcloud container clusters get-credentials "voyager-test" --zone "europe-north1-b" --project ""
+gcloud container clusters get-credentials "voyager-prod" --region "europe-north1" --project ""
 
 # 2. Deleting load-balancer-creating resources
 echo "Releasing load balancers..."
-kubectl --context "gke_voyager-test-489716_europe-north1-b_voyager-test" delete ingress --all -n sample-app --ignore-not-found
-kubectl --context "gke_voyager-prod-489709_europe-north1_voyager-prod" delete ingress --all -n sample-app --ignore-not-found
+kubectl --context "gke__europe-north1-b_voyager-test" delete ingress --all -n sample-app --ignore-not-found
+kubectl --context "gke__europe-north1_voyager-prod" delete ingress --all -n sample-app --ignore-not-found
 
 echo "Patching ArgoCD service to ClusterIP..."
-kubectl --context "gke_voyager-test-489716_europe-north1-b_voyager-test" patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}' || true
+kubectl --context "gke__europe-north1-b_voyager-test" patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}' || true
 echo "Waiting 30s for GCP to release forwarding rules..."
 sleep 30
 
@@ -29,10 +29,10 @@ scale_down() {
 }
 
 echo "Scaling down test node pools..."
-scale_down "voyager-test-489716" "voyager-test" "--zone europe-north1-b"
+scale_down "" "voyager-test" "--zone europe-north1-b"
 
 echo "Scaling down prod node pools..."
-scale_down "voyager-prod-489709" "voyager-prod" "--region europe-north1"
+scale_down "" "voyager-prod" "--region europe-north1"
 
 
 verify_and_force_scale_down() {
@@ -66,11 +66,11 @@ verify_and_force_scale_down() {
   done
 }
 
-verify_and_force_scale_down "voyager-test-489716" "voyager-test"
-verify_and_force_scale_down "voyager-prod-489709" "voyager-prod"
+verify_and_force_scale_down "" "voyager-test"
+verify_and_force_scale_down "" "voyager-prod"
 
 echo "Stopping Cloud SQL instances..."
-gcloud sql instances patch voyager-test-db --activation-policy=NEVER --project "voyager-test-489716"
-gcloud sql instances patch voyager-prod-db --activation-policy=NEVER --project "voyager-prod-489709"
+gcloud sql instances patch voyager-test-db --activation-policy=NEVER --project ""
+gcloud sql instances patch voyager-prod-db --activation-policy=NEVER --project ""
 
 echo "✅ All expensive resources stopped."

@@ -21,11 +21,11 @@ module "gke" {
 
   master_authorized_networks = [
     {
-      cidr_block   = "35.228.44.122/32"
+      cidr_block   = ""
       display_name = "Test NAT gateway"
     },
     {
-    cidr_block   = "84.50.67.219/32"
+    cidr_block   = ""
     display_name = "Admin access"
     }
   ]

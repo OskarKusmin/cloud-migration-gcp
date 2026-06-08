@@ -29,11 +29,11 @@ Secrets are synced from GCP Secret Manager via External Secrets and DNS records 
 Three GCP projects isolate resources. `shared` (Artifact Registry, Terraform state), `test` and `prod`.
 ![architecture diagram](/Voyager.drawio.svg)
 GitLab repository is available [here.](https://gitlab.com/kood-voyager-group/kood-voyager-project)\
-Production application: https://www.kood-voyager.com/
+Production application: https://www./
 
 ## Setup and installation
 #### Prerequisites
-- Clone the repository (https://gitea.kood.tech/oskarkusmin/voyager.git)
+- Clone the repository (https://   .git)
 - [GCP account](https://cloud.google.com)
 - Domain name with registrar access
 - [GitLab account](https://about.gitlab.com)
@@ -63,26 +63,12 @@ Production application: https://www.kood-voyager.com/
   - Set alert thresholds at **25%, 50%, 75%, 100%** of your budget and enable email notifications
 
 ### 2. Replacing hardcoded values
-There are hardcoded values you will need replace in these directories to match your setup. 
-- `/cluster-config`
-- `/terraform`
-- `/sample-app`
-- `/scripts`
-- `/argocd`
-
-Here are the values to replace when found
-- `kood-voyager.com` -> your domain
-- `voyager-test-489716` -> your test project ID
-- `voyager-prod-489709` -> your prod project ID 
-- `voyager-shared-489709` -> your shared project ID
-- `https://gitlab.com/kood-voyager-group/kood-voyager-project.git` -> your GitLab repo URL
-- `https://discord.com/api/webhooks/123456789/qwerty/slack` -> Your webhook URL
 
 ### 3. Terraform configuration
 Create these Terraform variable files.
 **`terraform/shared/terraform.tfvars`**
 ```sh
-project_id = "voyager-shared-XXXXX"
+project_id = <project_id>
 region     = "europe-north1"
 ```
 
@@ -388,7 +374,7 @@ This is how it is applied in this project:
 
 >***Separate user for administrative tasks exists***
 
-The root user (personal Google account) is only used for initial project setup. All infrastructure management is performed through a dedicated terraform service account created in the `shared` project (`terraform@voyager-shared-489709.iam.gserviceaccount.com`) . CI/CD authenticates using this service account's key stored as a GitLab CI variable.
+The root user (personal Google account) is only used for initial project setup. All infrastructure management is performed through a dedicated terraform service account created in the `shared` project (`terraform@.iam.gserviceaccount.com`) . CI/CD authenticates using this service account's key stored as a GitLab CI variable.
 
 ---
 
@@ -487,8 +473,8 @@ Private DNS zones resolve only from within the VPC. They map domain names to pri
 
 Benefits:
 - Private DNS provides security through separation. Internal resources (databases, internal APIs) are not visible in public DNS. An attacker can't discover our database hostname or internal service topology through DNS lookups.
-- Internal endpoints like `db.test-private.kood-voyager.com` always resolves to the database, even if the IP changes. Applications don't need to be reconfigured. Just the DNS record updates.
-- Configuration is simpler because applications reference human-readable hostnames instead of IP addresses. The backend connects to `db.test-private.kood-voyager.com` rather than a hardcoded IP that could change.
+- Internal endpoints like `db.test-private.` always resolves to the database, even if the IP changes. Applications don't need to be reconfigured. Just the DNS record updates.
+- Configuration is simpler because applications reference human-readable hostnames instead of IP addresses. The backend connects to `db.test-private.` rather than a hardcoded IP that could change.
 
 Drawbacks:
 - Managing two sets of zones to manage per environment is more complicated because of different visibility rules. Debugging DNS issues requires knowing which zone a record is in and where it's resolvable from.
@@ -500,11 +486,11 @@ Drawbacks:
 
 A TLS (Transport Layer Security) certificate is a data file hosted in a website's origin server. It enables encrypted and authenticated communication between client and server. The certificate may contain a website's public key and identity along with related information. This is what makes HTTPS work.\
 Data sent between the client and server is encrypted so anyone intercepting the traffic (like on a public Wi-Fi network) can't read it.\
-The certificate proves that the server is who it claims to be. When a browser connects to `kood-voyager.com`, the TLS certificate proves it's actually our server, not an impersonator. 
+The certificate proves that the server is who it claims to be. When a browser connects to ``, the TLS certificate proves it's actually our server, not an impersonator. 
 
 In this project:
 - Public DNS zones use Google-managed certificates provisioned automatically by the GKE Ingress controller (no manual certificate management needed).
-- Private DNS zones use wildcard certificates (e.g., `*.test-private.kood-voyager.com`) created via Google Certificate Manager in Terraform, securing internal traffic between services within the VPC.
+- Private DNS zones use wildcard certificates (e.g., `*.test-private.`) created via Google Certificate Manager in Terraform, securing internal traffic between services within the VPC.
 
 ---
 
@@ -566,7 +552,7 @@ The credential values never appear in Git. Only the ExternalSecret definition (w
 
 >***Student can explain why External DNS is used and what it does***
 
-External DNS watches Kubernetes Ingress resources. When it sees a hostname on the resources (like `frontend.test-public.kood-voyager.com`) it creates or updates matching DNS records in Google Cloud DNS.\
+External DNS watches Kubernetes Ingress resources. When it sees a hostname on the resources (like `frontend.test-public.`) it creates or updates matching DNS records in Google Cloud DNS.\
 So DNS stays in sync with what is deployed in the cluster and we don't have to manually edit DNS for every service.
 
 External DNS is used because it adds automation and is aligned with GitOps. Desired hostnames are kept in Git with the rest of the app config. The cluster and External DNS apply them.
