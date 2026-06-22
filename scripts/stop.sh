@@ -1,18 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/config.sh"
+
 # 1. Connecting to both clusters
 echo "Configuring kubectl contexts..."
-gcloud container clusters get-credentials "voyager-test" --zone "europe-north1-b" --project ""
-gcloud container clusters get-credentials "voyager-prod" --region "europe-north1" --project ""
+gcloud container clusters get-credentials "$TEST_CLUSTER" --zone "$TEST_ZONE" --project "$TEST_PROJECT"
+gcloud container clusters get-credentials "$PROD_CLUSTER" --region "$PROD_REGION" --project "$PROD_PROJECT"
 
 # 2. Deleting load-balancer-creating resources
 echo "Releasing load balancers..."
-kubectl --context "gke__europe-north1-b_voyager-test" delete ingress --all -n sample-app --ignore-not-found
-kubectl --context "gke__europe-north1_voyager-prod" delete ingress --all -n sample-app --ignore-not-found
+kubectl --context "$TEST_CTX" delete ingress --all -n sample-app --ignore-not-found
+kubectl --context "$PROD_CTX" delete ingress --all -n sample-app --ignore-not-found
 
 echo "Patching ArgoCD service to ClusterIP..."
-kubectl --context "gke__europe-north1-b_voyager-test" patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}' || true
+kubectl --context "$TEST_CTX" patch svc argocd-server -n argocd -p '{"spec": {"type": "ClusterIP"}}' || true
 echo "Waiting 30s for GCP to release forwarding rules..."
 sleep 30
 
@@ -29,10 +32,10 @@ scale_down() {
 }
 
 echo "Scaling down test node pools..."
-scale_down "" "voyager-test" "--zone europe-north1-b"
+scale_down "$TEST_PROJECT" "$TEST_CLUSTER" "--zone $TEST_ZONE"
 
 echo "Scaling down prod node pools..."
-scale_down "" "voyager-prod" "--region europe-north1"
+scale_down "$PROD_PROJECT" "$PROD_CLUSTER" "--region $PROD_REGION"
 
 
 verify_and_force_scale_down() {
@@ -66,11 +69,11 @@ verify_and_force_scale_down() {
   done
 }
 
-verify_and_force_scale_down "" "voyager-test"
-verify_and_force_scale_down "" "voyager-prod"
+verify_and_force_scale_down "$TEST_PROJECT" "$TEST_CLUSTER"
+verify_and_force_scale_down "$PROD_PROJECT" "$PROD_CLUSTER" 
 
 echo "Stopping Cloud SQL instances..."
-gcloud sql instances patch voyager-test-db --activation-policy=NEVER --project ""
-gcloud sql instances patch voyager-prod-db --activation-policy=NEVER --project ""
+gcloud sql instances patch $TEST_DB --activation-policy=NEVER --project "$TEST_PROJECT"
+gcloud sql instances patch $PROD_DB --activation-policy=NEVER --project "$PROD_PROJECT"
 
 echo "✅ All expensive resources stopped."
