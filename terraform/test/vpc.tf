@@ -1,15 +1,13 @@
 module "vpc" {
-  source  = "terraform-google-modules/network/google"
-  version = "~> 10.0"
-
-  project_id = var.project_id
-  network_name = "voyager-test"
+  source       = "terraform-google-modules/network/google"
+  version      = "~> 10.0"
+  project_id   = var.project_id
+  network_name = var.cluster_name
   routing_mode = "REGIONAL"
-
-  subnets = [{
-    subnet_name = "private"
-    subnet_ip = "10.0.0.0/20"
-    subnet_region = var.region
+  subnets      = [{
+    subnet_name           = "private"
+    subnet_ip             = "10.0.0.0/20"
+    subnet_region         = var.region
     subnet_private_access = true
   }]
 

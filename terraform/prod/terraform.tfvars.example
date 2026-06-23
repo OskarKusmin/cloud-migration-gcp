@@ -1,0 +1,6 @@
+environment       = "prod"
+project_id        = ""
+shared_project_id = ""
+peer_project_id   = ""
+peer_cluster_name = "voyager-test"
+domain            = ""

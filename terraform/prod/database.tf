@@ -17,7 +17,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 
 # Cloud SQL PostgreSQL instance
 resource "google_sql_database_instance" "main" {
-  name = "voyager-prod-db"
+  name = "${var.cluster_name}-db"
   database_version = "POSTGRES_15"
   region = var.region
   project = var.project_id
@@ -73,4 +73,3 @@ resource "google_sql_user" "main" {
   password = random_password.db_password.result
   project = var.project_id
 }
-

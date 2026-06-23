@@ -1,30 +1,28 @@
 module "gke" {
-  source  = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
-  version = "~> 35.0"
-
-  project_id = var.project_id
-  name = var.cluster_name
-  region = var.region
-  zones = var.zones
-
-  network = module.vpc.network_name
-  subnetwork = module.vpc.subnets_names[0]
-  ip_range_pods = "pods"
+  source            = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
+  version           = "~> 35.0"
+  project_id        = var.project_id
+  name              = var.cluster_name
+  region            = var.region
+  zones             = var.zones
+  network           = module.vpc.network_name
+  subnetwork        = module.vpc.subnets_names[0]
+  ip_range_pods     = "pods"
   ip_range_services = "services"
 
   # Private cluster settings
-  enable_private_nodes = true
-  enable_private_endpoint = true
-  master_global_access_enabled = true
-  master_ipv4_cidr_block = "172.16.0.0/28"
+  enable_private_nodes                 = true
+  enable_private_endpoint              = true
+  master_global_access_enabled         = true
+  master_ipv4_cidr_block               = "172.16.0.0/28"
   monitoring_enable_managed_prometheus = false
 
   # Cluster config
   regional = false
-  create_service_account = true
-  deletion_protection = false
+  create_service_account   = true
+  deletion_protection      = false
   remove_default_node_pool = true
-  initial_node_count = 0
+  initial_node_count       = 0
 
   node_pools = [
     {
@@ -60,16 +58,16 @@ module "gke" {
   ]
 
   node_pools_labels = {
-    main = { role = "main" }
-    tools = { role = "tools" }
+    main       = { role = "main" }
+    tools      = { role = "tools" }
     monitoring = { role = "monitoring"}
   }
 
   node_pools_taints = {
     tools = [
       {
-        key = "role"
-        value = "tools"
+        key    = "role"
+        value  = "tools"
         effect = "NO_SCHEDULE"
       }
     ]

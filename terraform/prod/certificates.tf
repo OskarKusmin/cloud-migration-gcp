@@ -1,12 +1,12 @@
 resource "google_certificate_manager_certificate" "private" {
-  name = "prod-private-cert"
+  name = "${var.environment}-private-cert"
   managed {
-    domains = ["*.prod-private."]
+    domains            = ["*.${var.environment}-private.${var.domain}."]
     dns_authorizations = [google_certificate_manager_dns_authorization.private.id]
   }
 }
 
 resource "google_certificate_manager_dns_authorization" "private" {
-  name   = "prod-private-dns-auth"
-  domain = "prod-private."
+  name   = "${var.environment}-private-dns-auth"
+  domain = "${var.environment}-private.${var.domain}."
 }

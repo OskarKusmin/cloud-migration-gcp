@@ -1,6 +1,11 @@
+variable "environment" {
+  description = "Environment name (test or prod)"
+  type        = string
+}
+
 variable "project_id" {
   description = "GCP project ID for test environment"
-  type = string
+  type        = string
 }
 
 variable "shared_project_id" {
@@ -10,52 +15,57 @@ variable "shared_project_id" {
 
 variable "region" {
   description = "GCP region"
-  type = string
-  default = "europe-north1"
+  type        = string
+  default     = "europe-north1"
 }
 
 variable "domain" {
   description = "Root domain name"
-  type = string
+  type        = string
 }
 
 variable "cluster_name" {
   description = "Name of the GKE cluster"
-  type = string
-  default = "voyager-test"
+  type        = string
+  default     = "voyager-test"
 }
 
 variable "zones" {
   description = "Zones for GKE cluster"
-  type = list(string)
-  default = [ "europe-north1-b" ]
+  type        = list(string)
+  default     = [ "europe-north1-b" ]
 }
 
 variable "machine_type" {
   description = "Default machine type for node pools"
-  type = string
-  default = "e2-medium"
+  type        = string
+  default     = "e2-medium"
 }
 
 variable "db_tier" {
   description = "Cloud SQL machine tier"
-  type = string
-  default = "db-f1-micro"
+  type        = string
+  default     = "db-f1-micro"
 }
 
 variable "db_name" {
   description = "Database name"
-  type = string
-  default = "postgres"
+  type        = string
+  default     = "postgres"
 }
 
 variable "db_user" {
   description = "Database user"
-  type = string
-  default = "postgres"
+  type        = string
+  default     = "postgres"
 }
 
-variable "prod_project_id" {
-  description = "Prod project ID"
-  type = string
+variable "peer_project_id" {
+  description = "Project ID of the peer environment (for VPC peering)"
+  type        = string
+}
+
+variable "peer_cluster_name" {
+  description = "Name of the peer environment's cluster (for VPC peering)"
+  type        = string
 }
