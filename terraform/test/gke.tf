@@ -29,7 +29,7 @@ module "gke" {
       name         = "main"
       machine_type = var.machine_type
       min_count    = 1
-      max_count    = 3
+      max_count    = 2
       disk_size_gb = 30
       disk_type    = "pd-standard"
       auto_upgrade = true
@@ -39,7 +39,7 @@ module "gke" {
       name         = "tools"
       machine_type = var.machine_type
       min_count    = 1
-      max_count    = 2
+      max_count    = 1
       disk_size_gb = 30
       disk_type    = "pd-standard"
       auto_upgrade = true
@@ -49,7 +49,7 @@ module "gke" {
       name         = "monitoring"
       machine_type = var.machine_type
       min_count    = 1
-      max_count    = 2
+      max_count    = 1
       disk_size_gb = 30
       disk_type    = "pd-standard"
       auto_upgrade = true
