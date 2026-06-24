@@ -11,14 +11,14 @@ kubePrometheusStack:
           - key: role
             value: monitoring
             effect: NoSchedule
-        retention: 7d
+        retention: 1d
         storageSpec:
           volumeClaimTemplate:
             spec:
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 2Gi
 
     # --- Alertmanager ---
     alertmanager:
