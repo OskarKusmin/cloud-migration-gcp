@@ -7,7 +7,7 @@ externalDns:
       - --google-project=
       - --google-zone-visibility=public
     domainFilters:
-      - test-public.
+      - test-public.kood-voyager.com
     serviceAccount:
       annotations:
         iam.gke.io/gcp-service-account: 

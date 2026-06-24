@@ -6,7 +6,7 @@ stages:
 
 variables:
   REGISTRY: europe-north1-docker.pkg.dev//voyager
-  ARGOCD_SERVER: argocd.test-public.
+  ARGOCD_SERVER: argocd.test-public.kood-voyager.com
   ARGOCD_CLI_VERSION: v2.14.7
 
 # Shared templates

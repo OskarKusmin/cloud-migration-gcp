@@ -7,7 +7,7 @@ externalDns:
       - --google-project=
       - --google-zone-visibility=public
     domainFilters:
-      - prod-public.
+      - prod-public.kood-voyager.com
     serviceAccount:
       annotations:
         iam.gke.io/gcp-service-account: external-dns@.iam.gserviceaccount.com

@@ -3,6 +3,6 @@ frontend:
   apiUrl: ""
   ingress:
     enabled: true
-    host: frontend.test-public.
+    host: frontend.test-public.kood-voyager.com
     annotations:
       networking.gke.io/managed-certificates: public-cert

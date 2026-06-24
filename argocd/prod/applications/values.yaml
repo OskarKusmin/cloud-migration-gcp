@@ -1,6 +1,6 @@
 spec:
   destination:
-    server: https://34.88.38.50
+    server: https://34.88.38.50 # This is the old prod cluster API endpoint and will need to be updated when I spin up a new prod cluster
   source:
     repoURL: 
     targetRevision: main
