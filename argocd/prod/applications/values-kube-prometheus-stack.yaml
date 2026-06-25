@@ -59,7 +59,7 @@ kubePrometheusStack:
           effect: NoSchedule
       serviceAccount:
         annotations:
-          iam.gke.io/gcp-service-account: grafana@****.iam.gserviceaccount.com
+          iam.gke.io/gcp-service-account: grafana@<your-prod-project-id>.iam.gserviceaccount.com
       additionalDataSources:
         - name: Loki
           type: loki
@@ -73,7 +73,7 @@ kubePrometheusStack:
           access: proxy
           jsonData:
             authenticationType: gce
-            defaultProject: 
+            defaultProject: <your-prod-project-id>
       sidecar:
         datasources:
           uid: prometheus
