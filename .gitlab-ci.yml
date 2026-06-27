@@ -5,8 +5,8 @@ stages:
   - deploy-prod
 
 variables:
-  REGISTRY: europe-north1-docker.pkg.dev//voyager
-  ARGOCD_SERVER: argocd.test-public.kood-voyager.com
+  REGISTRY: europe-north1-docker.pkg.dev/<shared-project-id>/voyager
+  ARGOCD_SERVER: argocd.test-public.<your-domain>.com
   ARGOCD_CLI_VERSION: v2.14.7
 
 # Shared templates
