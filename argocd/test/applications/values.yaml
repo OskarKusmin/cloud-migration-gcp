@@ -2,7 +2,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
   source:
-    repoURL: <your-gitlab-repo>
+    repoURL: https://gitlab.com/devops_daddy/cloud-migration-gcp.git
     targetRevision: main
 
 backend: {}
