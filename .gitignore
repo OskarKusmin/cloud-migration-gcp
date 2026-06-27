@@ -16,3 +16,4 @@ credentials.json
 
 .env
 scripts/config.sh
+token
