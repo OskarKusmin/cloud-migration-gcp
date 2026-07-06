@@ -12,7 +12,7 @@ module "gke" {
 
   # Private cluster settings
   enable_private_nodes                 = true
-  enable_private_endpoint              = true
+  enable_private_endpoint              = false
   master_global_access_enabled         = true
   master_ipv4_cidr_block               = "172.16.0.0/28"
   monitoring_enable_managed_prometheus = false
