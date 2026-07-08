@@ -1,4 +1,6 @@
 backend:
+  image:
+    repository: europe-north1-docker.pkg.dev/voyager-shared-500708/voyager/backend
   config:
     CLIENT_URL: "https://frontend.test-public.kood-voyager.com"
     SERVER_PORT: ":8080"

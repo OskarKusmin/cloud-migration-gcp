@@ -1,4 +1,6 @@
 frontend:
+  image:
+    repository: europe-north1-docker.pkg.dev/voyager-shared-500708/voyager/frontend
   backendUrl: "http://backend-backend:8080"
   apiUrl: ""
   ingress:
