@@ -1,6 +1,6 @@
 spec:
   destination:
-    server: https://<prod-cluster-api-endpoint> # Replace after Terraform ceates the cluster
+    server: https://35.228.216.188 # Replace after Terraform ceates the cluster
   source:
     repoURL: https://gitlab.com/devops_daddy/cloud-migration-gcp.git
     targetRevision: main
