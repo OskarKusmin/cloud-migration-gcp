@@ -1,12 +1,12 @@
 frontend:
   image:
-      repository: europe-north1-docker.pkg.dev/voyager-shared-500708/voyager/frontend
+      repository: <GCP_REGION>-docker.pkg.dev/<SHARED_PROJECT_ID>/voyager/frontend
   backendUrl: "http://prod-backend-backend:8080"
   apiUrl: ""
   ingress:
     enabled: true
-    host: frontend.prod-public.kood-voyager.com
+    host: frontend.prod-public.<DOMAIN>
     additionalHosts:
-      - www.kood-voyager.com
+      - www.<DOMAIN>
     annotations:
       networking.gke.io/managed-certificates: public-cert

@@ -3,7 +3,7 @@ postgresExporter:
   values:
     config:
       datasource:
-        host: db.prod-private.kood-voyager.com
+        host: db.prod-private.<DOMAIN>
         port: "5432"
         user: postgres
         database: postgres

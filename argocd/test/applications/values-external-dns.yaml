@@ -4,13 +4,13 @@ externalDns:
     provider:
       name: google
     extraArgs:
-      - --google-project=voyager-test-500708
+      - --google-project=<TEST_PROJECT_ID>
       - --google-zone-visibility=public
     domainFilters:
-      - test-public.kood-voyager.com
+      - test-public.<DOMAIN>
     serviceAccount:
       annotations:
-        iam.gke.io/gcp-service-account: external-dns@voyager-test-500708.iam.gserviceaccount.com
+        iam.gke.io/gcp-service-account: external-dns@<TEST_PROJECT_ID>.iam.gserviceaccount.com
     nodeSelector:
       role: tools
     tolerations:

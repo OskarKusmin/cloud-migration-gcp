@@ -2,7 +2,7 @@ spec:
   destination:
     server: https://35.228.216.188 # Replace after Terraform ceates the cluster
   source:
-    repoURL: https://gitlab.com/devops_daddy/cloud-migration-gcp.git
+    repoURL: <GITLAB_REPO_URL>
     targetRevision: main
 
 backend: {}

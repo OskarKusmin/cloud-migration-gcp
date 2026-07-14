@@ -16,7 +16,7 @@ variable "shared_project_id" {
 variable "region" {
   description = "GCP region"
   type        = string
-  default     = "europe-north1"
+  default     = "<GCP_REGION>"
 }
 
 variable "domain" {
@@ -33,7 +33,7 @@ variable "cluster_name" {
 variable "zones" {
   description = "Zones for GKE cluster"
   type        = list(string)
-  default     = [ "europe-north1-b" ]
+  default     = [ "<GCP_REGION>-b" ]
 }
 
 variable "machine_type" {

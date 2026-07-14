@@ -5,8 +5,8 @@ stages:
   - deploy-prod
 
 variables:
-  REGISTRY: europe-north1-docker.pkg.dev/voyager-shared-500708/voyager
-  ARGOCD_SERVER: argocd.test-public.kood-voyager.com
+  REGISTRY: <GCP_REGION>-docker.pkg.dev/<SHARED_PROJECT_ID>/voyager
+  ARGOCD_SERVER: argocd.test-public.<DOMAIN>
   ARGOCD_CLI_VERSION: v2.14.7
 
 # Shared templates
@@ -19,7 +19,7 @@ variables:
     DOCKER_TLS_CERTDIR: ""
   before_script:
     - echo "$GCP_SA_KEY" | base64 -d > /tmp/key.json
-    - cat /tmp/key.json | docker login -u _json_key --password-stdin europe-north1-docker.pkg.dev
+    - cat /tmp/key.json | docker login -u _json_key --password-stdin <GCP_REGION>-docker.pkg.dev
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 

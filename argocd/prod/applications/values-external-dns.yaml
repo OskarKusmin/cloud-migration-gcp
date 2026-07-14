@@ -4,13 +4,13 @@ externalDns:
     provider:
       name: google
     extraArgs:
-      - --google-project=voyager-prod-500708
+      - --google-project=<PROD_PROJECT_ID>
       - --google-zone-visibility=public
     domainFilters:
-      - prod-public.kood-voyager.com
+      - prod-public.<DOMAIN>
     serviceAccount:
       annotations:
-        iam.gke.io/gcp-service-account: external-dns@voyager-prod-500708.iam.gserviceaccount.com
+        iam.gke.io/gcp-service-account: external-dns@<PROD_PROJECT_ID>.iam.gserviceaccount.com
     nodeSelector:
       role: tools
     tolerations:

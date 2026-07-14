@@ -48,7 +48,7 @@ const Login = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='wrapper'>
-        <h1>Welcome to the jungle!</h1>
+        <h1>Welcome!</h1>
         <h2>Login</h2>
 
         <input

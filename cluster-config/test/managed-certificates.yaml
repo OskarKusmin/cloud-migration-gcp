@@ -5,5 +5,5 @@ metadata:
   namespace: sample-app
 spec:
   domains:
-    - frontend.test-public.kood-voyager.com
-    - backend.test-public.kood-voyager.com
+    - frontend.test-public.<DOMAIN>
+    - backend.test-public.<DOMAIN>
