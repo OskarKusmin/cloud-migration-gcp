@@ -13,7 +13,5 @@ my-files/
 *.key
 credentials.json
 *ec.json
-
 .env
 scripts/config.sh
-token

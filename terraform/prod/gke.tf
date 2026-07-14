@@ -19,11 +19,11 @@ module "gke" {
 
   master_authorized_networks = [
     {
-      cidr_block   = "84.50.67.219/32"
+      cidr_block   = "<TEST_NAT_GATEWAY_IP>/32"
       display_name = "Test NAT gateway"
     },
     {
-    cidr_block   = "34.88.163.69/32"
+    cidr_block   = "<ADMIN_IP>/32"
     display_name = "Admin access"
     }
   ]

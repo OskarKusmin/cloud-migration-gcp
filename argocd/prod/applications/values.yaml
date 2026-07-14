@@ -1,6 +1,6 @@
 spec:
   destination:
-    server: https://35.228.216.188 # Replace after Terraform ceates the cluster
+    server: <PROD_CLUSTER_ENDPOINT> # Replace after Terraform ceates the cluster
   source:
     repoURL: <GITLAB_REPO_URL>
     targetRevision: main
