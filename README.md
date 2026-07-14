@@ -1,5 +1,4 @@
 # Cloud Migration to GCP
-Production-grade Kubernetes infrastructure with GitOps, monitoring, and CI/CD
 
 ## Project Overview
 This project is a cloud migration of a full-stack web application to Google Cloud Platform. The application runs on GKE in two environments (test and production), each in its own GCP project.
