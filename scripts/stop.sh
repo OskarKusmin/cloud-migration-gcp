@@ -46,9 +46,7 @@ verify_and_force_scale_down() {
   while [ $RETRIES -lt 5 ]; do
     local ALL_ZERO=true
     
-    gcloud compute instance-groups managed list --project="$PROJECT" \
-      --filter="name~gke-$CLUSTER" \
-      --format="csv[no-heading](name,zone,targetSize)" | while IFS=, read -r NAME ZONE_URL SIZE; do
+    while IFS=, read -r NAME ZONE_URL SIZE; do
       if [ "$SIZE" != "0" ]; then
         ZONE=$(basename "$ZONE_URL")
         echo "  $NAME still at targetSize=$SIZE, force-resizing..."
@@ -56,7 +54,9 @@ verify_and_force_scale_down() {
           --size=0 --zone="$ZONE" --project="$PROJECT" --quiet
         ALL_ZERO=false
       fi
-    done
+    done < <(gcloud compute instance-groups managed list --project="$PROJECT" \
+      --filter="name~gke-$CLUSTER" \
+      --format="csv[no-heading](name,zone,targetSize)" )
 
     if $ALL_ZERO; then
       echo "  All instance groups at 0."

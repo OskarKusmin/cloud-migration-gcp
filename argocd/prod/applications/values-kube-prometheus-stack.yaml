@@ -77,7 +77,7 @@ kubePrometheusStack:
       sidecar:
         datasources:
           uid: prometheus
-        dasboards:
+        dashboards:
           folderAnnotation: grafana_dashboard_folder
 
     # --- Node selector for operator ---

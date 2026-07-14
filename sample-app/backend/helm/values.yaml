@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: <GCP_REGION>-docker.pkg.dev//voyager/backend
+  repository: <GCP_REGION>-docker.pkg.dev/<SHARED_PROJECT_ID>/voyager/backend
   tag: latest
   pullPolicy: Always
 

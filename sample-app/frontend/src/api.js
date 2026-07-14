@@ -1,5 +1,4 @@
-import { REACT_APP_API_URL } from './config' /* IMPORT */
-
+import { REACT_APP_API_URL } from './config'
 
 export const Endpoints = {
   login: `${REACT_APP_API_URL}/api/login`,

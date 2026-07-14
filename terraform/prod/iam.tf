@@ -1,5 +1,4 @@
 # --- External secrets ---
-
 resource "google_service_account" "external_secrets" {
   account_id = "external-secrets"
   display_name = "External Secrets"
@@ -20,7 +19,6 @@ resource "google_service_account_iam_member" "external_secrets_wi" {
 }
 
 # --- External DNS ---
-
 resource "google_service_account" "external_dns" {
   account_id = "external-dns"
   display_name = "External DNS"
@@ -41,7 +39,6 @@ resource "google_service_account_iam_member" "external_dns_wi" {
 }
 
 # --- Grafana ---
-
 resource "google_service_account" "grafana" {
   account_id = "grafana"
   display_name = "Grafana"
@@ -62,7 +59,6 @@ resource "google_service_account_iam_member" "grafana_wi" {
 }
 
 # --- Artifact Registry cross-project access ---
-
 resource "google_project_iam_member" "gke_artifact_registry_reader" {
   project = var.shared_project_id
   role    = "roles/artifactregistry.reader"

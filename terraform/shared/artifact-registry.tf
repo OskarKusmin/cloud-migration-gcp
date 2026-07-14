@@ -33,4 +33,3 @@ resource "google_artifact_registry_repository" "helm" {
   description = "Helm charts for Voyager"
   depends_on = [google_project_service.apis]
 }
-

@@ -26,6 +26,7 @@ variables:
 .argocd-deploy:
   image: alpine:latest
   variables:
+    # ARGOCD_SERVER and ARGOCD_AUTH_TOKEN are picked up automatically by the ArgoCD CLI from environment variables (token set in GitLab CI settings)
     ARGOCD_OPTS: "--plaintext --grpc-web"
   before_script:
     - apk add --no-cache curl

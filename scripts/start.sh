@@ -36,7 +36,7 @@ for POOL in main tools monitoring; do
     MAX=1
   fi
 
-  gcloud container clusters update "voyager-prod" --region "$PROD_REGION" --project "$PROD_PROJECT" --node-pool "$POOL" --enable-autoscaling --min-nodes 1 --max-nodes "$MAX"
+  gcloud container clusters update "$PROD_CLUSTER" --region "$PROD_REGION" --project "$PROD_PROJECT" --node-pool "$POOL" --enable-autoscaling --min-nodes 1 --max-nodes "$MAX"
 done
 
 echo "Configuring kubectl..."

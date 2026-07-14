@@ -73,4 +73,3 @@ resource "google_sql_user" "main" {
   password = random_password.db_password.result
   project = var.project_id
 }
-

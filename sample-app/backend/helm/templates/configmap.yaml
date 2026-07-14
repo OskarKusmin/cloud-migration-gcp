@@ -7,7 +7,7 @@ metadata:
 data:
   .env: |
     {{- if not .Values.externalSecrets.enabled }}
-    POSTGRES_USER={{ .Values.secrets.POSTGRES_PASSWORD | default "postgres" }}
+    POSTGRES_USER={{ .Values.secrets.POSTGRES_USER | default "postgres" }}
     POSTGRES_PASSWORD={{ .Values.secrets.POSTGRES_PASSWORD }}
     POSTGRES_DB={{ .Values.config.POSTGRES_DB | default "postgres" }}
     POSTGRES_SERVER_HOST={{ .Values.config.POSTGRES_SERVER_HOST | default "localhost" }}

@@ -4,7 +4,7 @@ variable "environment" {
 }
 
 variable "project_id" {
-  description = "GCP project ID for test environment"
+  description = "GCP project ID for prod environment"
   type        = string
 }
 
